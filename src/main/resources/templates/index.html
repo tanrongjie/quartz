@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge;chrome=1"/>
+    <title>任务调度</title>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+<!--<button id="add" type="button" class="btn btn-success">添加</button>-->
+<table class="table table-bordered">
+    <caption>任务列表</caption>
+    <thead>
+        <tr>
+            <td>组名</td>
+            <td>任务名</td>
+            <td>执行类</td>
+            <td>执行时间表达式</td>
+            <td>任务功能说明</td>
+            <td>状态</td>
+            <td>创建时间</td>
+            <td colspan="2">操作</td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="scheduler : ${list}">
+            <td th:text="${scheduler.jobGroup}"></td>
+            <td th:text="${scheduler.jobName}"></td>
+            <td th:text="${scheduler.jobClass}"></td>
+            <td th:text="${scheduler.cronExpr}"></td>
+            <td th:text="${scheduler.describe}"></td>
+            <td th:switch="${scheduler.jobStatus}">
+                <p th:case="0">关闭</p>
+                <p th:case="1">启用</p>
+                <p th:case="2">暂停</p>
+            </td>
+            <td th:text="${scheduler.createDate}"></td>
+            <td><button id="start" type="button" class="btn btn-success">启用</button></td>
+            <!--<td><button type="button" class="btn btn-danger">暂停</button></td>-->
+            <td><button id="close" type="button" class="btn btn-danger">关闭</button></td>
+        </tr>
+    </tbody>
+</table>
+</body>
+<script src="https://cdn.bootcss.com/layer/2.3/layer.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#start").on("click", function () {
+            $.ajax({
+                url : '/scheduler/update.do',
+                type : 'post',
+                data : {
+                    id : 1,
+                    jobStatus : 1
+                },
+                success: function (data) {
+                    alert(data);
+                    window.location.reload();
+                }
+            });
+        });
+        $("#close").on("click", function () {
+            $.ajax({
+                url : '/scheduler/update.do',
+                type : 'post',
+                data : {
+                    id : 1,
+                    jobStatus : 0
+                },
+                success: function (data) {
+                    alert(data);
+                    window.location.reload();
+                }
+            });
+        });
+    });
+</script>
+</html>

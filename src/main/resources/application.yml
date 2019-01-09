@@ -1,0 +1,17 @@
+server:
+  port: 8080
+
+
+spring:
+  jpa:
+    database: mysql
+    show-sql: true      #显示后台处理的SQL语句
+    hibernate:
+      ddl-auto: update  #自动检查实体和数据库表是否一致，如果不一致则会进行更新数据库表
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/quartz?useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2B8
+    username: root
+    password: root
+    #driver-class-name: com.mysql.jdbc.Driver
+    ###################以下为druid增加的配置###########################
+    type: com.alibaba.druid.pool.DruidDataSource    #数据库连接池类型
